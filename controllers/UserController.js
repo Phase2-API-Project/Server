@@ -19,7 +19,7 @@ class UserController {
     static login(req, res, next) {
         User.findOne(
             {
-                where: {email: req.body.email}
+                email: req.body.email
             }
         )
             .then(user => {
@@ -30,7 +30,7 @@ class UserController {
                             email: user.email
                         }
                     })
-                    res.statu(200).json({ token })
+                    res.status(200).json({ token })
                 } else {
                     throw new Error('wrong password')
                 }
