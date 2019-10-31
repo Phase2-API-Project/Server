@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const hashPassword = require('../helpers/passwordHasher').hashPassword
 const userSchema = new Schema(
     {
         username: {
@@ -16,6 +17,11 @@ const userSchema = new Schema(
         }
     }
 )
+
+userSchema.pre('save', (error, doc, next) => {
+    this.password = hashPassword(this.password)
+    next()
+})
 
 const User = model('User', userSchema)
 module.exports = User
