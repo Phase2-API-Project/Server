@@ -12,7 +12,7 @@ class BetterDoctorController {
         gender,
         skip: "0",
         limit: "10",
-        user_key: "3a81ac35f5aef97580f9ea2b2c6606c0"
+        user_key: process.env.BETTER_DOCTOR_API_KEY
       }
     })
       .then(({data}) => {

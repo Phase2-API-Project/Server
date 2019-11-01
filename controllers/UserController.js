@@ -25,15 +25,14 @@ class UserController {
         )
             .then(user => {
                 if(comparePassword(req.body.password, user.password)) {
-                    let token = generateToken({
-                        user: {
-                            id: user.id,
-                            email: user.email
-                        }
-                    })
+                    let payload = {
+                        email: user.email,
+                        id: user._id
+                    }
+                    let token = generateToken(payload)
                     res.status(200).json({ token })
                 } else {
-                    throw new Error('wrong password')
+                    next({status:400, message:"wrong password"})
                 }
             })
             .catch(next)
@@ -48,8 +47,26 @@ class UserController {
         })
             .then(ticket => {
                 payload = ticket.getPayload()
+                let email = payload.email
+
+                return User.findOne({email})
+            })
+            .then(user => {
+                if(user){
+                    return user
+                }
+                else{
+                    return User.create({
+                        username: payload.name,
+                        email: payload.email,
+                        password: process.env.DEFAULT_PASS
+                    })
+                }
+            })
+            .then(user => {
                 const token = generateToken({
-                    email: payload.email
+                    id: user._id,
+                    email: user.email
                 })
                 res.status(200).json({
                     token

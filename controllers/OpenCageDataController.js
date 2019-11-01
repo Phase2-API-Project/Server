@@ -8,7 +8,7 @@ class OpenCageDataController {
       method: 'get',
       params: {
         q: `${place}`,
-        key: "24c10dabfaf645b492da68ff2f4a04d3"
+        key: process.env.OPEN_CAGE_DATA_API_KEY
       }
     })
       .then(({data}) => {
