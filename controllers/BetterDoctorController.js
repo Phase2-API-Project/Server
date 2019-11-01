@@ -36,7 +36,7 @@ class BetterDoctorController {
               specialties : specialll
             })
           });
-          res.status(200).json(data)        
+          res.status(200).json(arr)        
         }
       })
       .catch(next)
