@@ -16,23 +16,28 @@ class BetterDoctorController {
       }
     })
       .then(({data}) => {
-        let arr = []
-        data.data.forEach(element => {
-          let specialll= []
-          element.specialties.forEach(specialty => {
-            specialll.push({
-              name : specialty.name,
-              description : specialty.description
+        if (data.data.length == 0){
+          next({status: 400, message: "Doctor not found"})
+        }
+        else {
+          let arr = []
+          data.data.forEach(element => {
+            let specialll= []
+            element.specialties.forEach(specialty => {
+              specialll.push({
+                name : specialty.name,
+                description : specialty.description
+              })
             })
-          })
-          arr.push({
-            name : `${element.profile.first_name} ${element.profile.last_name}, ${element.profile.title}`,
-            gender : element.profile.gender,
-            bio: element.profile.bio,
-            specialties : specialll
-          })
-        });
-        res.status(200).json(arr)        
+            arr.push({
+              name : `${element.profile.first_name} ${element.profile.last_name}, ${element.profile.title}`,
+              gender : element.profile.gender,
+              bio: element.profile.bio,
+              specialties : specialll
+            })
+          });
+          res.status(200).json(data)        
+        }
       })
       .catch(next)
   }

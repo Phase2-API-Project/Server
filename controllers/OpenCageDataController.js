@@ -12,11 +12,16 @@ class OpenCageDataController {
       }
     })
       .then(({data}) => {
-        let lat = data.results[0].annotations.DMS.lat.split(' ')[2]
-        let latslice = lat.slice(0, lat.length-2)
-        let lng = data.results[0].annotations.DMS.lng.split(' ')[2]
-        let lngslice = lng.slice(0, lng.length-2)
-        res.status(200).json({lat: latslice, lng: lngslice})        
+        if(data.results.length == 0){
+          next({status: 400, message: "Location not found"})
+        }
+        else{
+          let lat = data.results[0].annotations.DMS.lat.split(' ')[2]
+          let latslice = lat.slice(0, lat.length-2)
+          let lng = data.results[0].annotations.DMS.lng.split(' ')[2]
+          let lngslice = lng.slice(0, lng.length-2)
+          res.status(200).json({lat: latslice, lng: lngslice})        
+        }
       })
       .catch(next)
   }
