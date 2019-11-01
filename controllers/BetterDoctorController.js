@@ -16,7 +16,23 @@ class BetterDoctorController {
       }
     })
       .then(({data}) => {
-        res.status(200).json(data)        
+        let arr = []
+        data.data.forEach(element => {
+          let specialll= []
+          element.specialties.forEach(specialty => {
+            specialll.push({
+              name : specialty.name,
+              description : specialty.description
+            })
+          })
+          arr.push({
+            name : `${element.profile.first_name} ${element.profile.last_name}, ${element.profile.title}`,
+            gender : element.profile.gender,
+            bio: element.profile.bio,
+            specialties : specialll
+          })
+        });
+        res.status(200).json(arr)        
       })
       .catch(next)
   }
