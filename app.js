@@ -9,6 +9,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const PORT = process.env.PORT || 3000
 const urlMongoose = 'mongodb://localhost/GroupProjectWeek1'
+const errorHandling = require('./middlewares/errorHandling')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -20,5 +21,6 @@ mongoose.connect(urlMongoose, { useNewUrlParser: true, useUnifiedTopology: true 
 
 app.use(cors())
 app.use('/', routes)
+app.use(errorHandling)
 
 app.listen(PORT, () => console.log('Running on port: ' + PORT))

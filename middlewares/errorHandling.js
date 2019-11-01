@@ -6,7 +6,7 @@ function errorHandling(err, req, res, next) {
     if(err.name === "ValidationError") {
         // validation error
         const errors = []
-        for(let key in err.errors) {
+        for(key in err.errors) {
             errors.push(err.error[key].message)
         }
         res.status(400).json({
